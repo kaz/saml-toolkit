@@ -1,0 +1,18 @@
+{
+  "name": "saml-toolkit",
+  "version": "1.0.0",
+  "description": "Simple SAML2.0 toolkit for Node.js",
+  "main": "index.js",
+  "dependencies": {
+    "saml": "^0.9.1",
+    "uuid": "^2.0.2",
+    "xml2js": "^0.4.16"
+  },
+  "author": "Kazuki Sawada",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kazsw/saml-toolkit.git"
+  },
+  "homepage": "https://github.com/kazsw/saml-toolkit"
+}
