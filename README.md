@@ -17,36 +17,37 @@ const requestObject = {
 };
 
 saml.buildAuthnRequest(requestObject)
-.then(data => console.log(data))
+.then(authnRequest => console.log(authnRequest))
 .catch(e => console.trace(e));
 
 saml.buildEncodedAuthnRequest(requestObject)
 .then(authnRequest => saml.parseAuthnRequest(authnRequest))
-.then(data => console.log(data))
+.then(authnRequest => console.log(authnRequest))
 .catch(e => console.trace(e));
 
+const cert = fs.readFileSync("saml_cert.pem");
+const key = fs.readFileSync("saml_key.pem");
 const responseObject = {
-	Assertion: {
-		cert: fs.readFileSync("saml_cert.pem"),
-		key: fs.readFileSync("saml_key.pem"),
-		audiences: "hoge.exmaple.com",
-		nameIdentifier: "user",
-		nameIdentifierFormat: "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
-		attributes: {
-			email: "user@hoge.exmaple.com"
-		}
+	NameID: "user",
+	Format: "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+	Attributes: {
+		email: "user@hoge.exmaple.com"
 	},
+	Audience: "hoge.exmaple.com",
 	Issuer: "moge.exmaple.com",
 	InResponseTo: "_0123456789",
-	Destination: "http://hoge.exmaple.com/acs"
+	Destination: "http://hoge.exmaple.com/acs",
+	Certificate: cert,
+	PrivateKey: key
 };
 
 saml.buildResponse(responseObject)
-.then(data => console.log(data))
+.then(response => console.log(response))
 .catch(e => console.trace(e));
 
 saml.buildEncodedResponse(responseObject)
 .then(response => saml.parseResponse(response))
-.then(data => console.log(data))
+.then(response => saml.verifyResponse(response, cert))
+.then(response => console.log(response))
 .catch(e => console.trace(e));
 ```
